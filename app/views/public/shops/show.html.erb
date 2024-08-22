@@ -1,0 +1,63 @@
+<h1>shop詳細</h1>
+
+<div class="my-4">
+  <h2 class="mb-4">shopinfo</h2>
+  <table class="table table-bordered">
+    <tbody>
+      <tr>
+        <th>店舗名</th>
+        <td><%= @shop.name %></td>
+      </tr>
+      <tr>
+        <th>スタジアム</th>
+        <td><%= @shop.ball_park.name %></td>
+      </tr>
+      <tr>
+        <th>TEL</th>
+        <td><%= @shop.phone %></td>
+      </tr>
+      <tr>
+        <th>平均レビュー</th>
+        <td><span id="ave_star"></span>(<%= @shop.reviews.average(:star) %>)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="my-4">
+  <h2>レビューをつける</h2>
+  <% if @review.new_record? %>
+    <%= form_with model: @review, url: shop_reviews_path(@shop) do |f| %>
+      <span id="star"></span>
+      <%= f.submit "送信", class: "btn btn-outline-primary" %>
+    <% end %>
+  <% else %>
+    <%= form_with model: @review do |f| %>
+      <span id="star"></span>
+      <%= f.submit "送信", class: "btn btn-outline-primary" %>
+    <% end %>
+  <% end %>
+
+</div>
+
+<div class="my-4">
+  <h2 class="mb-4">menus</h2>
+  <%= render 'shop/menus/menus', menus: @shop.menus %>
+</div>
+
+<%= link_to "shop一覧", shops_path, class: "btn btn-primary" %>
+
+<script>
+  $('#star').raty({
+    starOff: "<%= asset_path('star-off.png') %>" ,
+    starOn: "<%= asset_path('star-on.png') %>",
+    scoreName: "review[star]",
+    score: "<%= @review.star %>"
+  })
+    
+  $('#ave_star').raty({
+    starOff: "<%= asset_path('star-off.png') %>" ,
+    starOn: "<%= asset_path('star-on.png') %>",
+    score: "<%= @shop.reviews.average(:star).to_i %>"
+  })
+</script>

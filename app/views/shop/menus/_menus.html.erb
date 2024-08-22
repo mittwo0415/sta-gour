@@ -1,0 +1,24 @@
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>商品名</th>
+      <th>価格</th>
+      <th>カテゴリ</th>
+      <th>コメント</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% menus.each do |menu| %>
+      <tr>
+        <% if current_shop %>
+          <td><%= link_to menu.name, shop_menu_path(menu) %></td>
+        <% else %>
+          <td><%= link_to menu.name, menu_path(menu) %></td>
+        <% end %>
+        <td><%= menu.price %></td>
+        <td><%= menu.category %></td>
+        <td><%= menu.comment.truncate(20) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

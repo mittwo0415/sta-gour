@@ -1,0 +1,70 @@
+<h1>Menus#show</h1>
+
+<table class="table table-bordered">
+  <tbody>
+    <tr>
+      <th>商品名</th>
+      <td><%= @menu.name %></td>
+    </tr>    
+    <tr>
+      <th>価格</th>
+      <td><%= @menu.price %></td>
+    </tr>
+    <tr>
+      <th>カテゴリ</th>
+      <td><%= @menu.category %></td>
+    </tr>
+    <tr>
+      <th>コメント</th>
+      <td><%= @menu.comment %></td>
+    </tr>
+    <tr>
+      <th>画像</th>
+      <td>
+        <% if @menu.image.attached? %>
+          <%= image_tag @menu.image, size: "200x200" %>
+        <% else %>
+        <% end %>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<% if current_shop && current_shop == @menu.shop %>
+  <%= link_to "編集", edit_shop_menu_path(@menu.id), class: "btn btn-warning" %>
+  <%= link_to "削除", shop_menu_path(@menu.id), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn btn-danger" %>
+<% end %>
+
+<div class="row">
+  <div class="col-md-7">
+    <h2>コメント一覧</h2>
+    <table class="table">
+      <tbody>
+        <% @menu.comments.each do |comment| %>
+          <tr>
+            <td><%= comment.content %></td>
+            <td><%= l comment.created_at, format: :short %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <% if current_user %>
+    <div class="col-md-5">
+      <h2>コメントを書く</h2>
+      <%= form_with model: @comment, url: menu_comments_path(@menu) do |f| %>
+        <%= f.label :content %>
+        <%= f.text_area :content, rows: 5, class: "form-control" %> 
+        <%= f.submit "comment", class: "btn btn-primary mt-2" %> 
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<% if current_shop %>
+  <%= link_to "メニュー一覧へ", shop_menus_path, class: "btn btn-secondary" %>
+<% else %>
+  <%= link_to "全メニューを見る", menus_path, class: "btn btn-secondary" %>
+  <%= link_to "shop詳細へ", shop_path(@menu.shop), class: "btn btn-secondary" %>
+<% end %>
+

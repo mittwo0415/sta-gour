@@ -1,0 +1,7 @@
+<h1>Menus#index</h1>
+
+<%= render 'shop/menus/menus', menus: @menus %>
+
+<% if current_shop %>
+  <%= link_to "new_menu", new_shop_menu_path, class: "btn btn-primary" %>
+<% end %>

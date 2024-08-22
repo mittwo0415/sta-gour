@@ -6,11 +6,22 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
-    <%= yield %>
+    <%= render "layouts/navigation" %>
+    <%= yield(:bg_area) %>
+    <div class="container">
+      <%= render "layouts/flash_messages" %>
+      <%= yield %>
+    </div>
+    <% if Rails.env.development? %>
+      <%= debug params %>
+      admin:<%= current_admin.inspect %><br>
+      shop:<%= current_shop.inspect %><br>
+      user:<%= current_user.inspect %>
+    <% end %>
   </body>
 </html>
