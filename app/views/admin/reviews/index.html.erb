@@ -1,0 +1,26 @@
+<h1>メニューのレビュー一覧</h1>
+
+<div class="row my-4">
+  <div class="col-md-10">
+    <%= form_with url: admin_reviews_path, method: :get do |f| %>
+      <div class="row">
+        <div class="col-md-3">
+          <%= f.select :star, (1..5).to_a,
+            { include_blank: "--評価点で検索--", selected: params[:star] },
+            { class: "form-control" } %>
+        </div>
+        <div class="col-md-3">
+          <%= f.collection_select :shop_id, Shop.all, :id, :name,
+            { include_blank: "--店舗で検索--", selected: params[:shop_id] },
+            { class: "form-control" } %>
+        </div>
+        <div class="col-md-2">
+          <%= f.submit "search", class: "btn btn-primary btn-block" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<%= render 'admin/reviews/reviews', reviews: @reviews %>
+

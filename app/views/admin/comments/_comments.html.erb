@@ -1,0 +1,21 @@
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>コメント</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% comments.each do |comment| %>
+      <tr>
+        <td><%= comment.id %></td>
+        <td><%= comment.content %></td>
+        <td>
+          <%= link_to "削除", admin_comment_path(comment), method: :delete,
+            data: { confirm: "本当に削除しますか？" }, class: "btn btn-danger" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,27 @@
+<h1>ユーザー詳細</h1>
+
+<table class="table table-bordered">
+  <tbody>
+    <tr>
+      <th>ID</th>
+      <td><%= @user.id %></td>
+    </tr>
+    <tr>
+      <th>名前</th>
+      <td><%= @user.name %></td>
+    </tr>
+    <tr>
+      <th>e-mail</th>
+      <td><%= @user.email %></td>
+    </tr>
+  </tbody>
+</table>
+
+<%= link_to "一覧へ戻る", admin_users_path, class: "btn btn-secondary" %>
+<%= link_to "削除", admin_user_path(@user), method: :delete, data: { confirm: "本当に削除しますか？" }, class: "btn btn-danger" %>
+
+<h2>このユーザーのコメント</h2>
+<%= render "admin/comments/comments", comments: @comments %>
+
+<h2>このユーザーのレビュー</h2>
+<%= render "admin/reviews/reviews", reviews: @reviews %>

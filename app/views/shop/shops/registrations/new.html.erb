@@ -9,6 +9,11 @@
   </div>
   
   <div class="field">
+    <%= f.label :phone %><br />
+    <%= f.text_field :phone, autofocus: true, autocomplete: "phone" %>
+  </div>
+  
+  <div class="field">
     <%= f.label :ball_park_id %><br />
     <%= f.collection_select :ball_park_id, BallPark.all, :id, :name %>
   </div>

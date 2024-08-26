@@ -1,0 +1,14 @@
+<div class="row my-4">
+  <div class="col-md-10">
+    <%= form_with url: url, method: :get do |f| %>
+      <div class="row">
+        <div class="col-md-5">
+          <%= f.search_field :keyword, class: "form-control", value: params[:keyword], placeholder: "キーワードで検索" %>
+        </div>
+        <div class="col-md-2">
+          <%= f.submit "search", class: "btn btn-primary btn-block" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -22,4 +22,42 @@ ball_parks = %w(
   広島市民球場
   福岡ドーム
 )
-ball_parks.each { |name| BallPark.create!(name: name) }
+ball_parks = ball_parks.map { |name| BallPark.create!(name: name) }
+
+shop_names = ["焼き鳥スタジアム", "アサビール", "フライドポテト専門店"]
+
+shop_names.each.with_index(1) do |name, i|
+  shop = Shop.create!(name: name, email: "shop#{i}@test.com", password: "password", phone: "000-000-00#{i}", ball_park_id: ball_parks.sample.id)
+end
+
+menu_attributes = [
+    {shop_id: 1, name: "もも", price: 200, category: "food", comment: "国産長州鳥のももです。"},
+    {shop_id: 1, name: "かわ", price: 200, category: "food", comment: "国産長州鳥のかわです。"},
+    {shop_id: 1, name: "きも", price: 200, category: "food", comment: "国産長州鳥のきもです。"},
+    {shop_id: 2, name: "小ビール", price: 400, category: "beer", comment: "250ml"},
+    {shop_id: 2, name: "中ビール", price: 800, category: "beer", comment: "450ml"},
+    {shop_id: 3, name: "ロングポテト", price: 600, category: "food", comment: "アツアツ揚げたてです。"},
+  ]
+  
+menu_attributes.each { |menu_attribute| Menu.create!(menu_attribute) }
+
+user_names = ["山田", "すずき", "sato", "m(_ _)m"]
+
+comment_samples = %w(
+    おいしかった。
+    あまり暖かくなかった。
+    もう一度食べたい。
+    かなりのボリュームでした。
+  )
+
+user_names.each.with_index(1) do |name, i|
+  user = User.create!(name: name, email: "user#{i}@test.com", password: "password")
+  
+  (0..rand(0..3)).each do |n|
+    user.comments.create!(menu_id: rand(1..menu_attributes.size), content: comment_samples.sample)
+  end
+  
+  (0..rand(0..shop_names.size)).each.with_index(1) do |n, index|
+    user.reviews.create!(shop_id: index, star: rand(1..5))
+  end
+end

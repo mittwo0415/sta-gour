@@ -24,12 +24,15 @@ Rails.application.routes.draw do
     resources :reviews, only: [:update]
   end
   namespace :shop do
-    root 'home#top'
+    root 'menus#index'
     resources :menus
     resources :comments, only: [:create, :destroy]
   end
   namespace :admin do
-    root 'home#top'
+    root to: "users#index"
+    resources :users, only: [:index, :show, :destroy]
+    resources :reviews, only: [:index, :destroy]
+    resources :comments, only: [:index, :destroy]
   end
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

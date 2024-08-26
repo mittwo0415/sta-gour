@@ -1,0 +1,23 @@
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>評価</th>
+      <th>店舗名</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% reviews.each do |review| %>
+      <tr>
+        <td><%= review.id %></td>
+        <td><%= review.star %></td>
+        <td><%= review.shop.name %></td>
+        <td>
+          <%= link_to "削除", admin_review_path(review), method: :delete,
+            data: { confirm: "本当に削除しますか？" }, class: "btn btn-danger" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
