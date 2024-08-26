@@ -57,7 +57,7 @@ user_names.each.with_index(1) do |name, i|
     user.comments.create!(menu_id: rand(1..menu_attributes.size), content: comment_samples.sample)
   end
   
-  (0..rand(0..shop_names.size)).each.with_index(1) do |n, index|
+  (0..rand(0...shop_names.size)).each.with_index(1) do |n, index|
     user.reviews.create!(shop_id: index, star: rand(1..5))
   end
 end
