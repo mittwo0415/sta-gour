@@ -58,6 +58,7 @@
   $('#ave_star').raty({
     starOff: "<%= asset_path('star-off.png') %>" ,
     starOn: "<%= asset_path('star-on.png') %>",
+    readOnly: true,
     score: "<%= @shop.reviews.average(:star).to_i %>"
   })
 </script>

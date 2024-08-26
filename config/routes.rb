@@ -22,9 +22,12 @@ Rails.application.routes.draw do
       resources :reviews, only: [:create]
     end
     resources :reviews, only: [:update]
+    post 'guest_login', to: "users#guest_login"
+    resources :users, only: [:edit, :update, :destroy]
   end
   namespace :shop do
     root 'menus#index'
+    resources :shops, only: [:show, :edit, :update, :destroy]
     resources :menus
     resources :comments, only: [:create, :destroy]
   end

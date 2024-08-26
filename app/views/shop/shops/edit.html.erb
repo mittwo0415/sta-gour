@@ -1,0 +1,28 @@
+<div class="row mt-4">
+  <div class="col-md-6 offset-md-3">
+    <div class="card">
+      <div class="card-body">
+        <h2 class="d-flex justify-content-center">店舗情報の編集</h2>
+        <%= form_with model: [:shop, @shop] do |f| %>
+          <div class="mb-3">
+            <%= f.label :name, "店舗名" %>
+            <%= f.text_field :name, class: "form-control" %>
+          </div>
+          
+          <div class="mb-3">
+            <%= f.label :phonem, "電話番号" %>
+            <%= f.text_field :phone, class: "form-control" %>
+          </div>
+  
+          <div class="mb-3">
+            <%= f.label :email, "e-Mail" %>
+            <%= f.email_field :email, class: "form-control" %>
+          </div>
+          
+          <%= f.submit "編集", class: "btn btn-primary btn-block" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+

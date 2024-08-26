@@ -6,7 +6,7 @@ class Shop < ApplicationRecord
          :rememberable, :validatable
          #:recoverable, 
          
-  has_many :menus
-  has_many :reviews
+  has_many :menus, dependent: :destroy
+  has_many :reviews, dependent: :destroy
   belongs_to :ball_park
 end

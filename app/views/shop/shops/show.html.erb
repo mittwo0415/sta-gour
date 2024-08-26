@@ -1,0 +1,37 @@
+<h1>shop詳細</h1>
+
+<div class="my-4">
+  <h2 class="mb-4">shopinfo</h2>
+  <table class="table table-bordered">
+    <tbody>
+      <tr>
+        <th>店舗名</th>
+        <td><%= @shop.name %></td>
+      </tr>
+      <tr>
+        <th>スタジアム</th>
+        <td><%= @shop.ball_park.name %></td>
+      </tr>
+      <tr>
+        <th>TEL</th>
+        <td><%= @shop.phone %></td>
+      </tr>
+      <tr>
+        <th>平均レビュー</th>
+        <td><span id="ave_star"></span>(<%= @shop.reviews.average(:star) %>)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<%= link_to "編集", edit_shop_shop_path(@shop), class: "btn btn-warning" %>
+<%= link_to "退会する", shop_shop_path(@shop), method: :delete, data: { confirm: "本当に削除しますか？" }, class: "btn btn-danger" %>
+
+<script>
+  $('#ave_star').raty({
+    starOff: "<%= asset_path('star-off.png') %>" ,
+    starOn: "<%= asset_path('star-on.png') %>",
+    readOnly: true,
+    score: "<%= @shop.reviews.average(:star).to_i %>"
+  })
+</script>
