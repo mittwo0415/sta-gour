@@ -1,0 +1,36 @@
+name: Staging Deploy
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+jobs:
+  deploy:
+    name: Capistrano Deploy to Staging
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.STAGING_SSH_KEY }}
+          name: github-actions # optional
+          known_hosts: ${{ secrets.STAGING_KNOWN_HOSTS }}
+          if_key_exists: fail # replace / ignore / fail; optional (defaults to fail)
+
+      - uses: actions/checkout@v3
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+
+      - name: Deploy to EC2
+        run: |
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/github-actions
+          BRANCH=develop bundle exec cap staging deploy
+
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/github-actions
