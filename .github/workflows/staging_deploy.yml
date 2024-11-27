@@ -31,6 +31,3 @@ jobs:
           eval "$(ssh-agent -s)"
           ssh-add ~/.ssh/github-actions
           BRANCH=develop bundle exec cap staging deploy
-
-eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/github-actions
