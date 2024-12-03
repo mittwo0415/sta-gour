@@ -1,33 +1,25 @@
-name: Staging Deploy
+name: Rails CI/CD
 
 on:
   push:
-    branches:
-      - develop
-      - main
+    branches: [main]
+
 jobs:
-  deploy:
-    name: Capistrano Deploy to Staging
+  build:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-
     steps:
-      - name: Install SSH key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.STAGING_SSH_KEY }}
-          name: github-actions # optional
-          known_hosts: ${{ secrets.STAGING_KNOWN_HOSTS }}
-          if_key_exists: fail # replace / ignore / fail; optional (defaults to fail)
-
-      - uses: actions/checkout@v3
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-
-      - name: Deploy to EC2
-        run: |
-          eval "$(ssh-agent -s)"
-          ssh-add ~/.ssh/github-actions
-          BRANCH=develop bundle exec cap staging deploy
+    - uses: actions/checkout@v2
+    - name: Deploy
+      env:
+        PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+        USER_NAME: ${{ secrets.USER_NAME }}
+        HOST_NAME: ${{ secrets.HOST_NAME }}
+      run: |
+        echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+        ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOST_NAME} 'cd sta-gour &&
+        git pull origin main &&
+        ~/.rbenv/shims/bundle install &&
+        ~/.rbenv/shims/bundle exec rails assets:precompile RAILS_ENV=production &&
+        ~/.rbenv/shims/bundle exec rails db:migrate RAILS_ENV=production &&
+        if [[ -e tmp/pids/puma.pid ]];then sudo kill $(cat tmp/pids/puma.pid); echo kill puma process;fi &&
+        ~/.rbenv/shims/rails s -e production'
